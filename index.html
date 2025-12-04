@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - Real-time Weather</title>
+    <link rel="stylesheet" href="styles.css">
+     <link rel="shortcut icon" href="weather.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="theme-toggle">
+        <svg id="sunIcon" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg id="moonIcon" class="icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <!-- Sun Effect (Light Mode) -->
+    <div id="sunEffect" class="sun-effect">
+        <div class="sun-rays">
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+        </div>
+        <div class="sun-orb"></div>
+        <div class="light-particles"></div>
+    </div>
+
+    <!-- Stars Effect (Dark Mode) -->
+    <!-- Clouds (soft floating clouds for a realistic sky) - now full-page -->
+    <div class="clouds" aria-hidden="true">
+        <div class="cloud cloud1 large"></div>
+        <div class="cloud cloud2 large"></div>
+        <div class="cloud cloud3 medium"></div>
+        <div class="cloud cloud4 medium"></div>
+        <div class="cloud cloud5 small"></div>
+        <div class="cloud cloud6 small"></div>
+        <div class="cloud cloud7 large"></div>
+        <div class="cloud cloud8 medium"></div>
+        <div class="cloud cloud9 small"></div>
+        <div class="cloud cloud10 medium"></div>
+        <div class="cloud cloud11 large"></div>
+        <div class="cloud cloud12 small"></div>
+    </div>
+
+    <div id="starsEffect" class="stars-effect hidden">
+        <div class="stars-container"></div>
+        <div class="moon">
+            <div class="crater crater1"></div>
+            <div class="crater crater2"></div>
+            <div class="crater crater3"></div>
+        </div>
+        <div class="moon-glow"></div>
+        <div class="shooting-star shooting-star1"></div>
+        <div class="shooting-star shooting-star2"></div>
+        <div class="shooting-star shooting-star3"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Landing Page -->
+        <div id="landingPage" class="landing-page">
+            <h1 class="landing-title">Weather Forecast</h1>
+            <p class="landing-subtitle">Get real-time weather information for any city</p>
+            
+            <form id="searchFormLanding" class="search-bar-landing">
+                <input 
+                    type="text" 
+                    id="cityInputLanding" 
+                    class="search-input-landing" 
+                    placeholder="Enter city name..."
+                    autocomplete="off"
+                    required
+                >
+                <button type="submit" class="search-button-landing">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    Search
+                </button>
+            </form>
+        </div>
+
+        <!-- Weather Container (Hidden Initially) -->
+        <div id="weatherContainer" class="weather-container hidden">
+            <!-- Search Bar -->
+            <form id="searchForm" class="search-bar">
+                <input 
+                    type="text" 
+                    id="cityInput" 
+                    class="search-input" 
+                    placeholder="Search for a city..."
+                    autocomplete="off"
+                >
+                <button type="submit" class="search-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </form>
+
+            <div class="weather-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Current Weather Card -->
+                    <div class="current-weather-card">
+                        <div class="current-weather-content">
+                            <div class="current-weather-left">
+                                <h2 id="cityName">--</h2>
+                                <p id="localTime" class="time-text">--</p>
+                                
+                                <div class="temperature-display">
+                                    <span id="currentTemp" class="temp-large">--</span>
+                                    <span class="temp-unit">°C</span>
+                                </div>
+                                
+                                <div class="weather-details">
+                                    <p id="weatherMain" class="weather-main">--</p>
+                                    <p id="tempRange" class="temp-range">H --° L --°</p>
+                                </div>
+                            </div>
+                            
+                            <div class="current-weather-right">
+                                <div id="weatherIcon" class="weather-icon-large"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7-Day Forecast -->
+                    <div class="forecast-card">
+                        <h3>7-Day Forecast</h3>
+                        <div id="dailyForecast" class="daily-forecast-grid"></div>
+                    </div>
+
+                    <!-- Hourly Chart -->
+                    <div class="chart-card">
+                        <h3>Hourly Temperature</h3>
+                        <canvas id="hourlyChart" width="800" height="200"></canvas>
+                        <div id="hourlyLabels" class="hourly-labels"></div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Metrics -->
+                <div class="right-column">
+                    <div id="metricsGrid" class="metrics-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state hidden">
+            <div class="loader"></div>
+            <p>Loading weather data...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
